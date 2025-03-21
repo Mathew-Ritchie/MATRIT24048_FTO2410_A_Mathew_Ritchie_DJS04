@@ -99,6 +99,19 @@ template.innerHTML = /* html */ `
             background-color: rgba(var(--color-blue), 0.8);
             color: rgba(var(--color-force-light), 1);
             }
+        .overlay__button {
+            font-family: Roboto, sans-serif;
+            background-color: rgba(var(--color-blue), 0.1);
+            transition: background-color 0.1s;
+            border-width: 0;
+            border-radius: 6px;
+            height: 2.75rem;
+            cursor: pointer;
+            width: 50%;
+            color: rgba(var(--color-blue), 1);
+            font-size: 1rem;
+            border: 1px solid rgba(var(--color-blue), 1);
+            }
 
 
     </style>
@@ -122,7 +135,51 @@ class BookPreview extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.dialog = this.shadowRoot.querySelector(".overlay");
+    this.closeButton = this.shadowRoot.querySelector(".overlay__button_primary");
+
+    this.closeButton.addEventListener("click", () => {
+      this.dialog.removeAttribute("open");
+    });
+  }
+
+  openPreview(book, authors) {
+    if (book) {
+      this.dialog.setAttribute("open", "");
+      this.shadowRoot.querySelector(".overlay__blur").src = book.image;
+      this.shadowRoot.querySelector(".overlay__image").src = book.image;
+      this.shadowRoot.querySelector(".overlay__title").innerText = book.title;
+      this.shadowRoot.querySelector(".overlay__data").innerText = `${
+        authors[book.author]
+      } (${new Date(book.published).getFullYear()})`;
+      this.shadowRoot.querySelector(".overlay__data_secondary").innerText = book.description;
+    }
   }
 }
-
 customElements.define("book-preview", BookPreview);
+
+export function bookPreviewClick(event, bookObject, authors) {
+  const pathArray = Array.from(event.path || event.composedPath());
+  let active = null;
+
+  for (const node of pathArray) {
+    if (active) break;
+
+    if (node?.dataset?.preview) {
+      let result = null;
+
+      for (const singleBook of bookObject) {
+        if (result) break;
+        if (singleBook.id === node?.dataset?.preview) result = singleBook;
+      }
+
+      active = result;
+    }
+  }
+
+  if (active) {
+    const dialog = document.querySelector("book-preview");
+    dialog.openPreview(active, authors);
+  }
+}
