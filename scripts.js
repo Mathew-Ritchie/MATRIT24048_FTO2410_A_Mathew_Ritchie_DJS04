@@ -1,12 +1,10 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from "./data.js";
-import { applyPreferredTheme, manualThemeSelector } from "./modules/theme.js";
 import { handleSearch } from "./modules/search.js";
 import {
   createAndAddBooksToUI,
   CreateListAuthorGenre,
   updateShowMoreButton,
 } from "./modules/utilities.js";
-//import { bookPreviewClick } from "./modules/book-preview.js";
 import { bookPreviewClick } from "./components/bookPreview.js";
 
 // creating a new book data array to work from rather than the raw data in data.js
@@ -58,23 +56,11 @@ document.querySelector("[data-header-search]").addEventListener("click", () => {
   document.querySelector("[data-search-title]").focus();
 });
 
-// document.querySelector("[data-list-close]").addEventListener("click", () => {
-//   document.querySelector("[data-list-active]").open = false;
-// });
-
 document.querySelector("[data-list-button]").addEventListener("click", () => {
   handleShowMore();
 });
 
-document.querySelector("[data-settings-form]").addEventListener("submit", manualThemeSelector);
-
-document.addEventListener("DOMContentLoaded", () => {
-  applyPreferredTheme();
-});
-
-//document.querySelector("[data-list-items]").addEventListener("click", bookPreviewClick);
 document.querySelector("[data-list-items]").addEventListener("click", (event) => {
-  //console.log("Book item clicked!", event);
   bookPreviewClick(event, bookObject, authors);
 });
 

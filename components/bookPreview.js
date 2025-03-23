@@ -1,6 +1,10 @@
+/**
+ * HTML template for the book preview dialog.
+ * @type {HTMLTemplateElement}
+ */
 const template = document.createElement("template");
 template.innerHTML = /* html */ `
-    <style>
+     <style>  
         .overlay {
             position: fixed;
             bottom: 0;
@@ -129,8 +133,12 @@ template.innerHTML = /* html */ `
       </div>
     </dialog>
 
-`;
+`; //styles and HTML moved vrom css and html files.
 
+/**
+ * Custom element for displaying a book preview dialog.
+ * @extends HTMLElement
+ */
 class BookPreview extends HTMLElement {
   constructor() {
     super();
@@ -144,6 +152,11 @@ class BookPreview extends HTMLElement {
     });
   }
 
+  /**
+   * Opens the book preview with the provided book details.
+   * @param {Object} book - The book object containing details to display.
+   * @param {Object} authors - An object mapping author IDs to author names.
+   */
   openPreview(book, authors) {
     if (book) {
       this.dialog.setAttribute("open", "");
@@ -159,6 +172,12 @@ class BookPreview extends HTMLElement {
 }
 customElements.define("book-preview", BookPreview);
 
+/**
+ * Handles the click event on a book preview element and opens the preview.
+ * @param {Event} event - The click event.
+ * @param {Array<Object>} bookObject - An array of book objects.
+ * @param {Object} authors - An object mapping author IDs to author names.
+ */
 export function bookPreviewClick(event, bookObject, authors) {
   const pathArray = Array.from(event.path || event.composedPath());
   let active = null;

@@ -28,6 +28,7 @@
 
     <script type="module" src="./scripts.js" defer></script>
     <script type="module" src="./data.js"></script>
+    <script type="module" src="./components/themeSelect.js"></script>
   </head>
   <body>
     <header class="header">
@@ -120,7 +121,8 @@
       </div>
     </dialog>
 
-    <dialog class="overlay" data-settings-overlay>
+    <theme-settings></theme-settings>
+    <!-- <dialog class="overlay" data-settings-overlay>
       <div class="overlay__content">
         <form class="overlay__form" data-settings-form id="settings">
           <label class="overlay__field">
@@ -140,7 +142,7 @@
           </button>
         </div>
       </div>
-    </dialog>
+    </dialog> -->
 
     <div class="backdrop"></div>
   </body>
